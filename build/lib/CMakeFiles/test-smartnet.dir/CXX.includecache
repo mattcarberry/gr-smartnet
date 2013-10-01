@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/mcarberry/radio/smartnet/gr-smartnet-modtool/gr-smartnet/lib/qa_smartnet.cc
+qa_smartnet.h
+/home/mcarberry/radio/smartnet/gr-smartnet-modtool/gr-smartnet/lib/qa_smartnet.h
+
+/home/mcarberry/radio/smartnet/gr-smartnet-modtool/gr-smartnet/lib/qa_smartnet.h
+gnuradio/attributes.h
+-
+cppunit/TestSuite.h
+-
+
+/home/mcarberry/radio/smartnet/gr-smartnet-modtool/gr-smartnet/lib/test_smartnet.cc
+config.h
+/home/mcarberry/radio/smartnet/gr-smartnet-modtool/gr-smartnet/lib/config.h
+cppunit/TextTestRunner.h
+-
+cppunit/XmlOutputter.h
+-
+gnuradio/unittests.h
+-
+qa_smartnet.h
+/home/mcarberry/radio/smartnet/gr-smartnet-modtool/gr-smartnet/lib/qa_smartnet.h
+iostream
+-
+

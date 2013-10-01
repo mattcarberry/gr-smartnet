@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """ Block to demodulate FSK via coherent PLL frequency estimation
 	Not exactly hardcore but it works
 """

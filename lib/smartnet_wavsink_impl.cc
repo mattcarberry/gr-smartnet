@@ -1,21 +1,19 @@
 /* -*- c++ -*- */
-/*
- * Copyright 2004,2006,2007,2008,2009 Free Software Foundation, Inc.
- *
- * This file is part of GNU Radio
- *
- * GNU Radio is free software; you can redistribute it and/or modify
+/* 
+ * Copyright 2013 <+YOU OR YOUR COMPANY+>.
+ * 
+ * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- *
- * GNU Radio is distributed in the hope that it will be useful,
+ * 
+ * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
- * along with GNU Radio; see the file COPYING.  If not, write to
+ * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
  * Boston, MA 02110-1301, USA.
  */
@@ -24,15 +22,15 @@
 #include "config.h"
 #endif
 
-#include <smartnet_wavsink.h>
-#include <gr_io_signature.h>
-#include <gri_wavfile.h>
+#include <gnuradio/io_signature.h>
+#include "smartnet_wavsink_impl.h"
+#include <gnuradio/blocks/wavfile.h>
 #include <stdexcept>
 #include <climits>
 #include <cstring>
 #include <cmath>
 #include <fcntl.h>
-#include <gruel/thread.h>
+#include <gnuradio/thread/thread.h>
 #include <sys/stat.h>
 
 // win32 (mingw/msvc) specific
@@ -52,30 +50,25 @@
 #define OUR_O_LARGEFILE 0
 #endif
 
+namespace gr {
+  namespace smartnet {
 
-smartnet_wavsink_sptr
-smartnet_make_wavsink(const char *filename,
-		     int n_channels,
-		     unsigned int sample_rate,
-		     int bits_per_sample)
-{
-  return smartnet_wavsink_sptr (new smartnet_wavsink (filename,
-						    n_channels,
-						    sample_rate,
-						    bits_per_sample));
-}
+    smartnet_wavsink::sptr
+    smartnet_wavsink::make(const char *filename, int n_channels, unsigned int sample_rate, int bits_per_sample)
+    {
+      return gnuradio::get_initial_sptr
+        (new smartnet_wavsink_impl(filename, n_channels, sample_rate, bits_per_sample));
+    }
 
-smartnet_wavsink::smartnet_wavsink(const char *filename,
-				 int n_channels,
-				 unsigned int sample_rate,
-				 int bits_per_sample)
-  : gr_sync_block ("wavsink",
-		   gr_make_io_signature(1, n_channels, sizeof(float)),
-		   gr_make_io_signature(0, 0, 0)),
-    d_sample_rate(sample_rate), d_nchans(n_channels),
-    d_fp(0), d_new_fp(0), d_updated(false)
-{
-  if (bits_per_sample != 8 && bits_per_sample != 16) {
+    /*
+     * The private constructor
+     */
+    smartnet_wavsink_impl::smartnet_wavsink_impl(const char *filename, int n_channels, unsigned int sample_rate, int bits_per_sample)
+      : gr::sync_block("smartnet_wavsink",
+              gr::io_signature::make(1, n_channels, sizeof(float)),
+              gr::io_signature::make(0, 0, 0))
+    {
+     if (bits_per_sample != 8 && bits_per_sample != 16) {
     throw std::runtime_error("Invalid bits per sample (supports 8 and 16)");
   }
   d_bytes_per_sample = bits_per_sample / 8;
@@ -98,16 +91,27 @@ smartnet_wavsink::smartnet_wavsink(const char *filename,
     if (bits_per_sample != 16) {
       fprintf(stderr, "Invalid bits per sample value requested, using 16");
     }
-  }
-}
+  }     
+    }
 
+    /*
+     * Our virtual destructor.
+     */
+    smartnet_wavsink_impl::~smartnet_wavsink_impl()
+    {
+      if (d_new_fp) {
+    fclose(d_new_fp);
+  }
+
+  close();
+     }
 
 bool
-smartnet_wavsink::open(const char* filename)
+smartnet_wavsink_impl::open(const char* filename)
 {
 	//this function is modified to append to .wav files instead of overwriting.
   int fd;
-  gruel::scoped_lock guard(d_mutex);
+  gr::thread::scoped_lock guard(d_mutex);
 
 	//first, check to see if the file exists.
 	int filestat = 0;
@@ -140,7 +144,7 @@ smartnet_wavsink::open(const char* filename)
 		int new_nchans, new_bytes_per_sample, new_first_sample_pos;
 
 		//validate the data, be sure it's set up the same as the current block (sample rate, mono/stereo, etc) and barf if it isn't
-	  if (!gri_wavheader_parse(d_new_fp,
+	  if (!gr::blocks::wavheader_parse(d_new_fp,
 				   new_sample_rate,
 				   new_nchans,
 				   new_bytes_per_sample,
@@ -180,7 +184,7 @@ smartnet_wavsink::open(const char* filename)
   	}
 	 	d_updated = true;
 
-	  if (!gri_wavheader_write(d_new_fp,
+	  if (!gr::blocks::wavheader_write(d_new_fp,
 				   d_sample_rate,
 				   d_nchans,
 				   d_bytes_per_sample_new)) {
@@ -193,11 +197,10 @@ smartnet_wavsink::open(const char* filename)
   return true;
 }
 
-
 void
-smartnet_wavsink::close()
+smartnet_wavsink_impl::close()
 {
-  gruel::scoped_lock guard(d_mutex);
+  gr::thread::scoped_lock guard(d_mutex);
   
   if (!d_fp)
     return;
@@ -205,13 +208,13 @@ smartnet_wavsink::close()
   close_wav();
 }
 
-void smartnet_wavsink::close_wav()
+void smartnet_wavsink_impl::close_wav()
 {
   unsigned int byte_count = d_sample_count * d_bytes_per_sample;
 
 	//printf("Writing wav header with %f seconds of audio\n", ((float(d_sample_count)/d_sample_rate)/d_nchans)/d_bytes_per_sample);
   
-  if(!gri_wavheader_complete(d_fp, byte_count)) {
+  if(!gr::blocks::wavheader_complete(d_fp, byte_count)) {
 		throw std::runtime_error("Error writing wav header\n");
 	}
   
@@ -220,21 +223,11 @@ void smartnet_wavsink::close_wav()
 }
 
 
-smartnet_wavsink::~smartnet_wavsink ()
-{
-  if (d_new_fp) {
-    fclose(d_new_fp);
-  }
-
-  close();
-}
-
-
-int
-smartnet_wavsink::work (int noutput_items,
-		       gr_vector_const_void_star &input_items,
-		       gr_vector_void_star &output_items)
-{
+    int
+    smartnet_wavsink_impl::work(int noutput_items,
+			  gr_vector_const_void_star &input_items,
+			  gr_vector_void_star &output_items)
+    {
   float **in = (float **) &input_items[0];
   int n_in_chans = input_items.size();
   
@@ -256,7 +249,7 @@ smartnet_wavsink::work (int noutput_items,
 				sample_buf_s = 0;
       }
       
-      gri_wav_write_sample(d_fp, sample_buf_s, d_bytes_per_sample);
+      gr::blocks::wav_write_sample(d_fp, sample_buf_s, d_bytes_per_sample);
       
       if (feof(d_fp) || ferror(d_fp)) {
 				fprintf(stderr, "[%s] file i/o error\n", __FILE__);
@@ -268,11 +261,9 @@ smartnet_wavsink::work (int noutput_items,
   }
   
   return nwritten;
-}
-
-
+    }
 short int
-smartnet_wavsink::convert_to_short(float sample)
+smartnet_wavsink_impl::convert_to_short(float sample)
 {
   sample += d_normalize_shift;
   sample *= d_normalize_fac;
@@ -287,9 +278,9 @@ smartnet_wavsink::convert_to_short(float sample)
 
 
 void
-smartnet_wavsink::set_bits_per_sample(int bits_per_sample)
+smartnet_wavsink_impl::set_bits_per_sample(int bits_per_sample)
 {
-  gruel::scoped_lock guard(d_mutex);
+  gr::thread::scoped_lock guard(d_mutex);
   if (bits_per_sample == 8 || bits_per_sample == 16) {
     d_bytes_per_sample_new = bits_per_sample / 8;
   }
@@ -297,21 +288,21 @@ smartnet_wavsink::set_bits_per_sample(int bits_per_sample)
 
 
 void
-smartnet_wavsink::set_sample_rate(unsigned int sample_rate)
+smartnet_wavsink_impl::set_sample_rate(unsigned int sample_rate)
 {
-  gruel::scoped_lock guard(d_mutex);
+  gr::thread::scoped_lock guard(d_mutex);
   d_sample_rate = sample_rate;
 }
 
 
 void
-smartnet_wavsink::do_update()
+smartnet_wavsink_impl::do_update()
 {
   if (!d_updated) {
     return;
   }
   
-  gruel::scoped_lock guard(d_mutex);     // hold mutex for duration of this block
+  gr::thread::scoped_lock guard(d_mutex);     // hold mutex for duration of this block
   if (d_fp) {
     close_wav();
   }
@@ -339,3 +330,6 @@ smartnet_wavsink::do_update()
   
   d_updated = false;
 }
+  } /* namespace smartnet */
+} /* namespace gr */
+

@@ -22,7 +22,7 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-include_directories(${Boost_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIR} ${GNURRADIO_BLOCKS_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND smartnet_sources
     smartnet_crc_impl.cc
@@ -35,7 +35,7 @@ list(APPEND smartnet_sources
     smartnet_wavsink_impl.cc )
 
 add_library(gnuradio-smartnet SHARED ${smartnet_sources})
-target_link_libraries(gnuradio-smartnet ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} gnuradio-blocks)
+target_link_libraries(gnuradio-smartnet ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES})
 set_target_properties(gnuradio-smartnet PROPERTIES DEFINE_SYMBOL "gnuradio_smartnet_EXPORTS")
 
 ########################################################################
@@ -47,26 +47,3 @@ install(TARGETS gnuradio-smartnet
     RUNTIME DESTINATION bin              # .dll file
 )
 
-########################################################################
-# Build and register unit test
-########################################################################
-include(GrTest)
-
-include_directories(${CPPUNIT_INCLUDE_DIRS})
-
-list(APPEND test_smartnet_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_smartnet.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_smartnet.cc
-)
-
-add_executable(test-smartnet ${test_smartnet_sources})
-
-target_link_libraries(
-  test-smartnet
-  ${GNURADIO_RUNTIME_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${CPPUNIT_LIBRARIES}
-  gnuradio-smartnet
-)
-
-GR_ADD_TEST(test_smartnet test-smartnet)

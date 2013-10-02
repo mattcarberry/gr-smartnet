@@ -25,5 +25,6 @@ install(FILES
     smartnet_smartnet_parse.xml
     smartnet_smartnet_subchannel_framer.xml
     smartnet_smartnet_sync.xml
-    smartnet_smartnet_wavsink.xml DESTINATION share/gnuradio/grc/blocks
+    smartnet_smartnet_wavsink.xml
+    smartnet_smartnet_fsk_demod.xml DESTINATION share/gnuradio/grc/blocks
 )

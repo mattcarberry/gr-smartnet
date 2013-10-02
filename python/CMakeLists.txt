@@ -31,7 +31,8 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    fsk_demod.py DESTINATION ${GR_PYTHON_DIR}/smartnet
+    fsk_demod.py
+    smartnet_fsk_demod.py DESTINATION ${GR_PYTHON_DIR}/smartnet
 )
 
 ########################################################################

@@ -31,15 +31,6 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    fsk_demod.py
     smartnet_fsk_demod.py DESTINATION ${GR_PYTHON_DIR}/smartnet
 )
 
-########################################################################
-# Handle the unit tests
-########################################################################
-include(GrTest)
-
-set(GR_TEST_TARGET_DEPS gnuradio-smartnet)
-set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
-GR_ADD_TEST(qa_fsk_demod ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_fsk_demod.py)

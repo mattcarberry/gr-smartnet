@@ -45,7 +45,6 @@ if _RTLD_GLOBAL != 0:
 from smartnet_swig import *
 
 # import any pure python here
-from fsk_demod import fsk_demod
 from smartnet_fsk_demod import smartnet_fsk_demod
 #
 

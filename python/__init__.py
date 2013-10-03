@@ -46,6 +46,8 @@ from smartnet_swig import *
 
 # import any pure python here
 from smartnet_fsk_demod import smartnet_fsk_demod
+from smartnet_logging_receiver import smartnet_logging_receiver
+
 #
 
 # ----------------------------------------------------------------

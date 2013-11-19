@@ -18,39 +18,34 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_SMARTNET_SMARTNET_PACKETIZE_IMPL_H
+#define INCLUDED_SMARTNET_SMARTNET_PACKETIZE_IMPL_H
 
-#ifndef INCLUDED_SMARTNET_SMARTNET_PARSE_H
-#define INCLUDED_SMARTNET_SMARTNET_PARSE_H
-
-#include <smartnet/api.h>
-#include <gnuradio/sync_block.h>
+#include <smartnet/packetize.h>
 
 namespace gr {
   namespace smartnet {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup smartnet
-     *
-     */
-    class SMARTNET_API smartnet_parse : virtual public gr::sync_block
+    class packetize_impl : public packetize
     {
-     public:
-      typedef boost::shared_ptr<smartnet_parse> sptr;
+     private:
+      // Nothing to declare in this block.
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of smartnet::smartnet_parse.
-       *
-       * To avoid accidental use of raw pointers, smartnet::smartnet_parse's
-       * constructor is in a private implementation
-       * class. smartnet::smartnet_parse::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make();
+     public:
+      packetize_impl();
+      ~packetize_impl();
+
+      // Where all the action really happens
+      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+
+      int general_work(int noutput_items,
+		       gr_vector_int &ninput_items,
+		       gr_vector_const_void_star &input_items,
+		       gr_vector_void_star &output_items);
     };
 
   } // namespace smartnet
 } // namespace gr
 
-#endif /* INCLUDED_SMARTNET_SMARTNET_PARSE_H */
+#endif /* INCLUDED_SMARTNET_SMARTNET_PACKETIZE_IMPL_H */
 

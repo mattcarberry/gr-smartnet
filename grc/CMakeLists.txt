@@ -17,15 +17,12 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 install(FILES
+    smartnet_crc.xml
+    smartnet_deinterleave.xml
     smartnet_fsk_demod.xml
-    smartnet_smartnet_crc.xml
-    smartnet_smartnet_deinterleave.xml
-    smartnet_smartnet_packetize.xml
-    smartnet_smartnet_parity.xml
-    smartnet_smartnet_parse.xml
-    smartnet_smartnet_subchannel_framer.xml
-    smartnet_smartnet_sync.xml
-    smartnet_smartnet_wavsink.xml
-    smartnet_smartnet_fsk_demod.xml
-    smartnet_smartnet_logging_receiver.xml DESTINATION share/gnuradio/grc/blocks
+    smartnet_packetize.xml
+    smartnet_parity.xml
+    smartnet_parse.xml
+    smartnet_subchannel_framer.xml
+    smartnet_sync.xml DESTINATION share/gnuradio/grc/blocks
 )

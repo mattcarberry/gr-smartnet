@@ -4,35 +4,43 @@
   <key>smartnet_fsk_demod</key>
   <category>smartnet</category>
   <import>import smartnet</import>
-  <make>smartnet.fsk_demod()</make>
-  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
-       Sub-nodes:
-       * name
-       * key (makes the value accessible as $keyname, e.g. in the make node)
-       * type -->
+  <make>smartnet.fsk_demod($syms_per_sec,$samples_per_sec,$gain_mu,$mu,$omega_relative_limit,$freq_offset)</make>
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>symbols per second</name>
+    <key>syms_per_sec</key>
+    <type>real</type>
   </param>
-
-  <!-- Make one 'sink' node per input. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
-  <sink>
+  <param>
+    <name>samples per second</name>
+    <key>samples_per_sec</key>
+    <type>real</type>
+  </param>
+   <param>
+    <name>gain mu</name>
+    <key>gain_mu</key>
+    <type>real</type>
+  </param>
+   <param>
+    <name>mu</name>
+    <key>mu</key>
+    <type>real</type>
+  </param>
+   <param>
+    <name>omega relative limit</name>
+    <key>omega_relative_limit</key>
+    <type>real</type>
+  </param>
+   <param>
+    <name>frequency offset</name>
+    <key>freq_offset</key>
+    <type>real</type>
+  </param>
+   <sink>
     <name>in</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <type>fc32</type>
   </sink>
-
-  <!-- Make one 'source' node per output. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
   <source>
     <name>out</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <type>byte</type>
   </source>
 </block>

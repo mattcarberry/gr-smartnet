@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_SMARTNET_SMARTNET_CRC_H
-#define INCLUDED_SMARTNET_SMARTNET_CRC_H
+#ifndef INCLUDED_SMARTNET_PARSE_H
+#define INCLUDED_SMARTNET_PARSE_H
 
 #include <smartnet/api.h>
 #include <gnuradio/sync_block.h>
@@ -33,17 +33,17 @@ namespace gr {
      * \ingroup smartnet
      *
      */
-    class SMARTNET_API smartnet_crc : virtual public gr::sync_block
+    class SMARTNET_API parse : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<smartnet_crc> sptr;
+      typedef boost::shared_ptr<parse> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of smartnet::smartnet_crc.
+       * \brief Return a shared_ptr to a new instance of smartnet::parse.
        *
-       * To avoid accidental use of raw pointers, smartnet::smartnet_crc's
+       * To avoid accidental use of raw pointers, smartnet::parse's
        * constructor is in a private implementation
-       * class. smartnet::smartnet_crc::make is the public interface for
+       * class. smartnet::parse::make is the public interface for
        * creating new instances.
        */
       static sptr make();
@@ -52,5 +52,5 @@ namespace gr {
   } // namespace smartnet
 } // namespace gr
 
-#endif /* INCLUDED_SMARTNET_SMARTNET_CRC_H */
+#endif /* INCLUDED_SMARTNET_PARSE_H */
 

@@ -25,14 +25,13 @@ include(GrPlatform) #define LIB_SUFFIX
 include_directories(${Boost_INCLUDE_DIR} ${GNURRADIO_BLOCKS_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND smartnet_sources
-    smartnet_crc_impl.cc
-    smartnet_deinterleave_impl.cc
-    smartnet_packetize_impl.cc
-    smartnet_parity_impl.cc
-    smartnet_parse_impl.cc
-    smartnet_subchannel_framer_impl.cc
-    smartnet_sync_impl.cc
-    smartnet_wavsink_impl.cc )
+    crc_impl.cc
+    deinterleave_impl.cc
+    packetize_impl.cc
+    parity_impl.cc
+    parse_impl.cc
+    subchannel_framer_impl.cc
+    sync_impl.cc )
 
 add_library(gnuradio-smartnet SHARED ${smartnet_sources})
 target_link_libraries(gnuradio-smartnet ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES})

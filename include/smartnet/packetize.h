@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_SMARTNET_SMARTNET_PACKETIZE_H
-#define INCLUDED_SMARTNET_SMARTNET_PACKETIZE_H
+#ifndef INCLUDED_SMARTNET_PACKETIZE_H
+#define INCLUDED_SMARTNET_PACKETIZE_H
 
 #include <smartnet/api.h>
 #include <gnuradio/block.h>
@@ -33,17 +33,17 @@ namespace gr {
      * \ingroup smartnet
      *
      */
-    class SMARTNET_API smartnet_packetize : virtual public gr::block
+    class SMARTNET_API packetize : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<smartnet_packetize> sptr;
+      typedef boost::shared_ptr<packetize> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of smartnet::smartnet_packetize.
+       * \brief Return a shared_ptr to a new instance of smartnet::packetize.
        *
-       * To avoid accidental use of raw pointers, smartnet::smartnet_packetize's
+       * To avoid accidental use of raw pointers, smartnet::packetize's
        * constructor is in a private implementation
-       * class. smartnet::smartnet_packetize::make is the public interface for
+       * class. smartnet::packetize::make is the public interface for
        * creating new instances.
        */
       static sptr make();
@@ -52,5 +52,5 @@ namespace gr {
   } // namespace smartnet
 } // namespace gr
 
-#endif /* INCLUDED_SMARTNET_SMARTNET_PACKETIZE_H */
+#endif /* INCLUDED_SMARTNET_PACKETIZE_H */
 

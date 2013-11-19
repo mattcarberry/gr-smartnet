@@ -18,39 +18,31 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_SMARTNET_CRC_IMPL_H
+#define INCLUDED_SMARTNET_CRC_IMPL_H
 
-#ifndef INCLUDED_SMARTNET_SMARTNET_SYNC_H
-#define INCLUDED_SMARTNET_SMARTNET_SYNC_H
-
-#include <smartnet/api.h>
-#include <gnuradio/sync_block.h>
+#include <smartnet/crc.h>
 
 namespace gr {
   namespace smartnet {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup smartnet
-     *
-     */
-    class SMARTNET_API smartnet_sync : virtual public gr::sync_block
+    class crc_impl : public crc
     {
-     public:
-      typedef boost::shared_ptr<smartnet_sync> sptr;
+     private:
+      // Nothing to declare in this block.
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of smartnet::smartnet_sync.
-       *
-       * To avoid accidental use of raw pointers, smartnet::smartnet_sync's
-       * constructor is in a private implementation
-       * class. smartnet::smartnet_sync::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make();
+     public:
+      crc_impl();
+      ~crc_impl();
+
+      // Where all the action really happens
+      int work(int noutput_items,
+	       gr_vector_const_void_star &input_items,
+	       gr_vector_void_star &output_items);
     };
 
   } // namespace smartnet
 } // namespace gr
 
-#endif /* INCLUDED_SMARTNET_SMARTNET_SYNC_H */
+#endif /* INCLUDED_SMARTNET_CRC_IMPL_H */
 

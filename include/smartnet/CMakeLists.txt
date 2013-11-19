@@ -22,12 +22,11 @@
 ########################################################################
 install(FILES
     api.h
-    smartnet_crc.h
-    smartnet_deinterleave.h
-    smartnet_packetize.h
-    smartnet_parity.h
-    smartnet_parse.h
-    smartnet_subchannel_framer.h
-    smartnet_sync.h
-    smartnet_wavsink.h DESTINATION include/smartnet
+    crc.h
+    deinterleave.h
+    packetize.h
+    parity.h
+    parse.h
+    subchannel_framer.h
+    sync.h DESTINATION include/smartnet
 )

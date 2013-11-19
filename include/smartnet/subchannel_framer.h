@@ -19,11 +19,11 @@
  */
 
 
-#ifndef INCLUDED_SMARTNET_SMARTNET_PARITY_H
-#define INCLUDED_SMARTNET_SMARTNET_PARITY_H
+#ifndef INCLUDED_SMARTNET_SUBCHANNEL_FRAMER_H
+#define INCLUDED_SMARTNET_SUBCHANNEL_FRAMER_H
 
 #include <smartnet/api.h>
-#include <gnuradio/block.h>
+#include <gnuradio/sync_block.h>
 
 namespace gr {
   namespace smartnet {
@@ -33,17 +33,17 @@ namespace gr {
      * \ingroup smartnet
      *
      */
-    class SMARTNET_API smartnet_parity : virtual public gr::block
+    class SMARTNET_API subchannel_framer : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<smartnet_parity> sptr;
+      typedef boost::shared_ptr<subchannel_framer> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of smartnet::smartnet_parity.
+       * \brief Return a shared_ptr to a new instance of smartnet::subchannel_framer.
        *
-       * To avoid accidental use of raw pointers, smartnet::smartnet_parity's
+       * To avoid accidental use of raw pointers, smartnet::subchannel_framer's
        * constructor is in a private implementation
-       * class. smartnet::smartnet_parity::make is the public interface for
+       * class. smartnet::subchannel_framer::make is the public interface for
        * creating new instances.
        */
       static sptr make();
@@ -52,5 +52,5 @@ namespace gr {
   } // namespace smartnet
 } // namespace gr
 
-#endif /* INCLUDED_SMARTNET_SMARTNET_PARITY_H */
+#endif /* INCLUDED_SMARTNET_SUBCHANNEL_FRAMER_H */
 

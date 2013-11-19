@@ -18,39 +18,34 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_SMARTNET_SMARTNET_DEINTERLEAVE_IMPL_H
+#define INCLUDED_SMARTNET_SMARTNET_DEINTERLEAVE_IMPL_H
 
-#ifndef INCLUDED_SMARTNET_SMARTNET_WAVSINK_H
-#define INCLUDED_SMARTNET_SMARTNET_WAVSINK_H
-
-#include <smartnet/api.h>
-#include <gnuradio/sync_block.h>
+#include <smartnet/deinterleave.h>
 
 namespace gr {
   namespace smartnet {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup smartnet
-     *
-     */
-    class SMARTNET_API smartnet_wavsink : virtual public gr::sync_block
+    class deinterleave_impl : public deinterleave
     {
-     public:
-      typedef boost::shared_ptr<smartnet_wavsink> sptr;
+     private:
+      // Nothing to declare in this block.
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of smartnet::smartnet_wavsink.
-       *
-       * To avoid accidental use of raw pointers, smartnet::smartnet_wavsink's
-       * constructor is in a private implementation
-       * class. smartnet::smartnet_wavsink::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(const char *filename, int n_channels, unsigned int sample_rate, int bits_per_sample);
+     public:
+      deinterleave_impl();
+      ~deinterleave_impl();
+
+      // Where all the action really happens
+      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+
+      int general_work(int noutput_items,
+		       gr_vector_int &ninput_items,
+		       gr_vector_const_void_star &input_items,
+		       gr_vector_void_star &output_items);
     };
 
   } // namespace smartnet
 } // namespace gr
 
-#endif /* INCLUDED_SMARTNET_SMARTNET_WAVSINK_H */
+#endif /* INCLUDED_SMARTNET_SMARTNET_DEINTERLEAVE_IMPL_H */
 

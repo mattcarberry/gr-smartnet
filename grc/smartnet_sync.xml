@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<block>
+  <name>sync</name>
+  <key>smartnet_sync</key>
+  <category>smartnet</category>
+  <import>import smartnet</import>
+  <make>smartnet.sync()</make>
+  <param>
+    <name>...</name>
+    <key>...</key>
+    <type>...</type>
+  </param>
+
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+  </sink>
+
+  <source>
+    <name>out</name>
+    <type>byte</type>
+  </source>
+</block>

@@ -18,39 +18,31 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_SMARTNET_SMARTNET_SYNC_IMPL_H
+#define INCLUDED_SMARTNET_SMARTNET_SYNC_IMPL_H
 
-#ifndef INCLUDED_SMARTNET_SMARTNET_DEINTERLEAVE_H
-#define INCLUDED_SMARTNET_SMARTNET_DEINTERLEAVE_H
-
-#include <smartnet/api.h>
-#include <gnuradio/block.h>
+#include <smartnet/sync.h>
 
 namespace gr {
   namespace smartnet {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup smartnet
-     *
-     */
-    class SMARTNET_API smartnet_deinterleave : virtual public gr::block
+    class sync_impl : public sync
     {
-     public:
-      typedef boost::shared_ptr<smartnet_deinterleave> sptr;
+     private:
+      // Nothing to declare in this block.
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of smartnet::smartnet_deinterleave.
-       *
-       * To avoid accidental use of raw pointers, smartnet::smartnet_deinterleave's
-       * constructor is in a private implementation
-       * class. smartnet::smartnet_deinterleave::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make();
+     public:
+      sync_impl();
+      ~sync_impl();
+
+      // Where all the action really happens
+      int work(int noutput_items,
+	       gr_vector_const_void_star &input_items,
+	       gr_vector_void_star &output_items);
     };
 
   } // namespace smartnet
 } // namespace gr
 
-#endif /* INCLUDED_SMARTNET_SMARTNET_DEINTERLEAVE_H */
+#endif /* INCLUDED_SMARTNET_SMARTNET_SYNC_IMPL_H */
 
